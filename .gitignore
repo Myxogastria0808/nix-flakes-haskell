@@ -1,6 +1,2 @@
-# Nix
 /.direnv
 
-# Haskell
-.stack-work/
-*~
