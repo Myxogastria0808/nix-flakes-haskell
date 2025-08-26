@@ -1,5 +1,5 @@
 {
-  description = "haskell-mytutorial";
+  description = "nix-flakes-haskell";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
