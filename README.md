@@ -75,10 +75,9 @@ direnv allow
 
 ```sh
 stack new <project-name>
-cd <project-name>
 ```
 
-5. update `.gitignore`
+5. set `.gitignore`
 
 ```
 # Nix
@@ -95,6 +94,7 @@ cd <project-name>
 `stack exec` command require `<project-name>-exe`.
 
 ```sh
+cd <project-name>
 stack build
 stack exec <project-name>-exe
 ```
@@ -102,5 +102,6 @@ stack exec <project-name>-exe
 ## Test
 
 ```sh
+cd <project-name>
 stack test
 ```
