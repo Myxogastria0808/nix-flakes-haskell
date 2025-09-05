@@ -1,0 +1,4 @@
+cradle:
+  stack:
+    - path: "./src/Main.hs"
+      component: "nix-flakes-haskell:exe:nix-flakes-haskell"

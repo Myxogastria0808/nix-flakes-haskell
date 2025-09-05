@@ -1,4 +1,4 @@
-# Haskell Tutorial
+# nix-flakes-haskell
 
 ## Setup
 
@@ -8,29 +8,30 @@
 
 ```nix
 {
-  description = "haskell-mytutorial";
+  description = "haskell flake sample";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs =
-    inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
-      system:
+  outputs = { self, nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
-      in
-      {
+        pkgs = import nixpkgs { inherit system; };
+        haskellPackages = with pkgs.haskell.packages.ghc9102; [
+          ghc
+          haskell-language-server
+          implicit-hie
+        ];
+      in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             stack
-            ghc
-            haskell-language-server
-          ];
+            cabal-install
+          ] ++ haskellPackages;
         };
-      }
-    );
+      });
 }
 ```
 
@@ -40,21 +41,13 @@
 use flake
 ```
 
-1. push the diff
-
-```sh
-git add .
-git commit -m "setup haskell dev environment"
-git push origin main
-```
-
-2. setup devShell
+1. setup devShell
 
 ```sh
 direnv allow
 ```
 
-3. set `.vscode/settings.json`
+2. set `.vscode/settings.json`
 
 `"haskell.manageHLS": "PATH",` is the most important setting.
 
@@ -71,13 +64,13 @@ direnv allow
 }
 ```
 
-4. create a stack project
+3. create a stack project
 
 ```sh
-stack new <project-name>
+stack new <project-name> simple --bare
 ```
 
-5. set `.gitignore`
+4. update `.gitignore`
 
 ```
 # Nix
@@ -86,15 +79,19 @@ stack new <project-name>
 # Haskell
 .stack-work/
 *~
-
 ```
 
-## Build and Exec
+5. generate `hie.yaml`
+
+```sh
+gen-hie > hie.yaml
+```
+
+## Build and Run
 
 `stack exec` command require `<project-name>-exe`.
 
 ```sh
-cd <project-name>
 stack build
 stack exec <project-name>-exe
 ```
@@ -102,6 +99,5 @@ stack exec <project-name>-exe
 ## Test
 
 ```sh
-cd <project-name>
 stack test
 ```
