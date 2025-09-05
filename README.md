@@ -67,7 +67,7 @@ direnv allow
 3. create a stack project
 
 ```sh
-stack new <project-name> simple --bare
+stack new <package-name> simple --bare
 ```
 
 4. update `.gitignore`
@@ -83,16 +83,37 @@ stack new <project-name> simple --bare
 
 5. generate `hie.yaml`
 
+> [!WARNING]
+> Be aware that the project name in the generated hie.yaml file may sometimes be incorrect.
+
 ```sh
 gen-hie > hie.yaml
 ```
 
-## Run
+- correct `hie.yaml`
 
-`stack exec` command require `<project-name>-exe`.
+```yaml
+cradle:
+  stack:
+    - path: "./src/Main.hs"
+      component: "<project-name>:exe:<package-name>"
+```
+
+## Build and Exec
+
+`stack exec` command require `<package-name>-exe`.
 
 ```sh
-stack run <project-name>:exe:<project-name>-exe
+stack build
+stack exec <package-name>-exe
+```
+
+## Run
+
+`stack exec` command require `<package-name>-exe`.
+
+```sh
+stack run <project-name>:exe:<package-name>-exe
 ```
 
 ## Test
