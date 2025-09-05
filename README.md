@@ -81,22 +81,26 @@ stack new <package-name> simple --bare
 *~
 ```
 
-5. generate `hie.yaml`
+5. create `hie.yaml`
 
-> [!WARNING]
-> Be aware that the project name in the generated hie.yaml file may sometimes be incorrect.
+
+```yaml
+cradle:
+  stack:
+    - path: "./src"
+      component: "<package-name>:exe:<package-name>"
+```
+
+※ automatically generating command
 
 ```sh
 gen-hie > hie.yaml
 ```
 
-- correct `hie.yaml`
+6. remove Setup.hs
 
-```yaml
-cradle:
-  stack:
-    - path: "./src/Main.hs"
-      component: "<project-name>:exe:<package-name>"
+```sh
+rm Setup.hs
 ```
 
 ## Build and Exec
@@ -109,7 +113,7 @@ stack exec <package-name>
 ## Run
 
 ```sh
-stack run <project-name>:exe:<package-name>
+stack run <package-name>:exe:<package-name>
 ```
 
 ## Test
