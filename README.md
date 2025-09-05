@@ -87,13 +87,12 @@ stack new <project-name> simple --bare
 gen-hie > hie.yaml
 ```
 
-## Build and Run
+## Run
 
 `stack exec` command require `<project-name>-exe`.
 
 ```sh
-stack build
-stack exec <project-name>-exe
+stack run <project-name>:exe:<project-name>-exe
 ```
 
 ## Test
