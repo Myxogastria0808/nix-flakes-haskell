@@ -10,7 +10,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        haskellPackages = with pkgs.haskell.packages.ghc9102; [
+        ghcVersion = "ghc9103";
+        haskellPackages = with pkgs.haskell.packages.${ghcVersion}; [
           ghc
           haskell-language-server
           implicit-hie
